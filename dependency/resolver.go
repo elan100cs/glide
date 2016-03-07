@@ -267,6 +267,11 @@ func (r *Resolver) ResolveLocal(deep bool) ([]string, error) {
 			if alreadySeen[imp] {
 				continue
 			}
+
+			packageSeparatorIndex := strings.LastIndex(imp, "/")
+			if packageSeparatorIndex > 0 {
+				alreadySeen[imp[:packageSeparatorIndex]] = true
+			}
 			alreadySeen[imp] = true
 			info := r.FindPkg(imp)
 			switch info.Loc {

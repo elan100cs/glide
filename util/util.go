@@ -231,6 +231,9 @@ var vcsList = []*vcsInfo{
 	{
 		pattern: `^(?P<rootpkg>(?P<repo>([a-z0-9.\-]+\.)+[a-z0-9.\-]+(:[0-9]+)?/[A-Za-z0-9_.\-/]*?)\.(bzr|git|hg|svn))(/[A-Za-z0-9_.\-]+)*$`,
 	},
+	{
+		pattern: `^(?P<rootpkg>[A-Za-z0-9.\-]+/[A-Za-z0-9_.\-]+/[A-Za-z0-9_.\-]+)(/[A-Za-z0-9_.\-]+)*$`,
+	},
 }
 
 // BuildCtxt is a convenience wrapper for not having to import go/build
