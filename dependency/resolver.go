@@ -465,7 +465,6 @@ func (r *Resolver) resolveImports(queue *list.List) ([]string, error) {
 					} else {
 						msg.Warn("Error updating %s: %s", imp, err)
 					}
-					r.VersionHandler.SetVersion(imp)
 				}
 			case LocUnknown:
 				msg.Debug("Missing %s. Trying to resolve.", imp)
@@ -502,6 +501,12 @@ func (r *Resolver) resolveImports(queue *list.List) ([]string, error) {
 	for e := queue.Front(); e != nil; e = e.Next() {
 		t := r.stripv(e.Value.(string))
 		root, sp := util.NormalizeName(t)
+
+		// Skip ignored packages
+		if r.Config.HasIgnore(e.Value.(string)) {
+			msg.Info("Ignoring: %s", e.Value.(string))
+			continue
+		}
 
 		// TODO(mattfarina): Need to eventually support devImport
 		existing := r.Config.Imports.Get(root)
