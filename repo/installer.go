@@ -65,6 +65,7 @@ func (i *Installer) VendorPath() string {
 	}
 
 	vp, err := gpath.Vendor()
+
 	if err != nil {
 		return filepath.FromSlash("./vendor")
 	}
@@ -187,6 +188,7 @@ func (i *Installer) Update(conf *cfg.Config) error {
 	res.VersionHandler = v
 	res.ResolveAllFiles = i.ResolveAllFiles
 	msg.Info("Resolving imports")
+	conf.DeDupe()
 	_, err = allPackages(conf.Imports, res)
 	if err != nil {
 		msg.Die("Failed to retrieve a list of dependencies: %s", err)

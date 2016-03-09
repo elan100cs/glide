@@ -215,6 +215,20 @@ func (c *Config) DeDupe() error {
 		c.DevImports = append(c.DevImports[:found], c.DevImports[found+1:]...)
 	}
 
+	// If subpackages
+	alreadySeen := map[string]bool{}
+	for i, dep := range c.Imports {
+		if !alreadySeen[dep.Name] {
+			alreadySeen[dep.Name] = true
+			packageSeparatorIndex := strings.LastIndex(dep.Name, "/")
+			if packageSeparatorIndex > 0 {
+				alreadySeen[dep.Name[:packageSeparatorIndex]] = true
+			}
+		} else {
+      c.Imports = append(c.Imports[:i], c.Imports[i+1:]...)
+		}
+	}
+	
 	// If something is on the ignore list remove it from the imports.
 	for _, v := range c.Ignore {
 		found = -1

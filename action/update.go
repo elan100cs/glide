@@ -51,6 +51,7 @@ func Update(installer *repo.Installer, skipRecursive bool) {
 		// Set references. There may be no remaining references to set since the
 		// installer set them as it went to make sure it parsed the right imports
 		// from the right version of the package.
+		confcopy.DeDupe()
 		msg.Info("Setting references for remaining imports")
 		if err := repo.SetReference(confcopy); err != nil {
 			msg.Err("Failed to set references: %s (Skip to cleanup)", err)
