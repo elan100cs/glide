@@ -32,7 +32,7 @@ func SetReference(conf *cfg.Config) error {
 				select {
 				case dep := <-ch:
 					if err := VcsVersion(dep, cwd); err != nil {
-						msg.Err("Failed to set version on %s to %s: %s\n", dep.Name, dep.Reference, err)
+						msg.Warn("Failed to set version on %s to %s: %s\n", dep.Name, dep.Reference, err)
 					}
 					wg.Done()
 				case <-done:
